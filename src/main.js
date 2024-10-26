@@ -4,6 +4,11 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from '@/router';
 import globalDirectives from './plugins/global-directive.js'
+import 'bootstrap/dist/js/bootstrap.js';
+import funcPlugins from '@/plugins/func.js'
+import objPlugins from '@/plugins/obj.js'
+import personPlugins from '@/plugins/person.js'
+import dayjs from './plugins/dayjs.js'
 // import globalComponents from '@/plugins/global-components';
 
 const app = createApp(App);
@@ -12,12 +17,10 @@ app.use(funcPlugins)
 app.use(objPlugins)
 app.use(personPlugins)
 app.use(globalDirectives)
+app.use(dayjs)
 app.use(router);
 app.mount('#app');
-import 'bootstrap/dist/js/bootstrap.js';
-import funcPlugins from '@/plugins/func.js'
-import objPlugins from '@/plugins/obj.js'
-import personPlugins from '@/plugins/person.js'
+
 
 // console.log('MODE: ', import.meta.env.MODE);
 // console.log('BASE_URL: ', import.meta.env.BASE_URL);
