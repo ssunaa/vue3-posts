@@ -3,7 +3,7 @@
     <div class="mb-3">
       <label for="title" class="form-label">제목</label>
       <input
-        v-focus
+        v-color="'yellow'"
         :value="title"
         @input="$emit('update:title', $event.target.value)"
         type="text"
@@ -14,6 +14,7 @@
     <div class="mb-3">
       <label for="content" class="form-label">내용</label>
       <textarea
+        v-focus
         :value="content"
         @input="$emit('update:content', $event.target.value)"
         class="form-control"
