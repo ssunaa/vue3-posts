@@ -3,6 +3,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from '@/router';
+import globalDirectives from './plugins/global-directive.js'
 // import globalComponents from '@/plugins/global-components';
 
 const app = createApp(App);
@@ -10,6 +11,7 @@ const app = createApp(App);
 app.use(funcPlugins)
 app.use(objPlugins)
 app.use(personPlugins)
+app.use(globalDirectives)
 app.use(router);
 app.mount('#app');
 import 'bootstrap/dist/js/bootstrap.js';

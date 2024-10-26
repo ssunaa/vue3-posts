@@ -28,11 +28,11 @@
 </template>
 
 <script setup>
-const vFocus = {
-  mounted: el => {
-    el.focus();
-  }
-}
+// const vFocus = {
+//   mounted: el => {
+//     el.focus();
+//   }
+// }
 defineProps({
   title: String,
   content: String,
