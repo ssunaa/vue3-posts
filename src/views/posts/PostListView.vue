@@ -10,6 +10,10 @@
 
     <hr class="my-4" />
 
+    <AppLoading v-if="loading" />
+
+    <AppError v-else-if="error" :message="error.message" />
+
     <AppGrid :items="posts">
       <template v-slot="{ item }">
         <PostItem
@@ -56,6 +60,8 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const posts = ref([]);
+const error = ref(null);
+const loading = ref(false);
 const params = ref({
   _sort: 'createdAt',
   _order: 'desc',
@@ -70,11 +76,14 @@ const pageCount = computed(() =>
 );
 const fetchPosts = async () => {
   try {
+    loading.value = true;
     const { data, headers } = await getPosts(params.value);
     posts.value = data;
     totalCount.value = headers['x-total-count'];
   } catch (error) {
-    console.error(error);
+    error.value = error;
+  } finally {
+    loading.value = false;
   }
 };
 watchEffect(fetchPosts);
