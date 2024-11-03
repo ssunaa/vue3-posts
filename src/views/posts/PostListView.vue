@@ -3,10 +3,7 @@
     <h2>게시글 목록</h2>
     <hr class="my-4" />
 
-    <PostFilter
-      v-model:title="params.title_like"
-      v-model:limit="params._limit"
-    />
+    <PostFilter v-model:title="params.title_like" v-model:limit="params._limit" />
 
     <hr class="my-4" />
 
@@ -22,6 +19,7 @@
           :created-at="item.createdAt"
           @click="goPage(item.id)"
           @modal="openModal(item)"
+          @preview="selectPreview(item.id)"
         ></PostItem>
       </template>
     </AppGrid>
@@ -29,7 +27,7 @@
     <AppPagination
       :current-page="params._page"
       :page-count="pageCount"
-      @page="page => (params._page = page)"
+      @page="(page) => (params._page = page)"
     />
     <Teleport to="#modal">
       <PostModal
@@ -40,74 +38,75 @@
       />
     </Teleport>
 
-    <template v-if="posts && posts.length > 0">
+    <template v-if="previewId">
       <hr class="my-5" />
       <AppCard>
-        <PostDetailView :id="posts[0].id"></PostDetailView>
+        <PostDetailView :id="previewId"></PostDetailView>
       </AppCard>
     </template>
   </div>
 </template>
 
 <script setup>
-import PostItem from '@/components/posts/PostItem.vue';
-import PostDetailView from '@/views/posts/PostDetailView.vue';
-import PostFilter from '@/components/posts/PostFilter.vue';
-import PostModal from '@/components/posts/PostModal.vue';
-import { getPosts } from '@/api/posts';
-import { ref, watchEffect, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import PostItem from '@/components/posts/PostItem.vue'
+import PostDetailView from '@/views/posts/PostDetailView.vue'
+import PostFilter from '@/components/posts/PostFilter.vue'
+import PostModal from '@/components/posts/PostModal.vue'
+import { getPosts } from '@/api/posts'
+import { computed, ref, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
-const posts = ref([]);
-const error = ref(null);
-const loading = ref(false);
+const previewId = ref(null)
+const selectPreview = (id) => (previewId.value = id)
+
+const router = useRouter()
+const posts = ref([])
+const error = ref(null)
+const loading = ref(false)
 const params = ref({
   _sort: 'createdAt',
   _order: 'desc',
   _page: 1,
   _limit: 3,
-  title_like: '',
-});
+  title_like: ''
+})
 // pagination
-const totalCount = ref(0);
-const pageCount = computed(() =>
-  Math.ceil(totalCount.value / params.value._limit),
-);
+const totalCount = ref(0)
+const pageCount = computed(() => Math.ceil(totalCount.value / params.value._limit))
 const fetchPosts = async () => {
   try {
-    loading.value = true;
-    const { data, headers } = await getPosts(params.value);
-    posts.value = data;
-    totalCount.value = headers['x-total-count'];
+    loading.value = true
+    const { data, headers } = await getPosts(params.value)
+    posts.value = data
+    totalCount.value = headers['x-total-count']
   } catch (error) {
-    error.value = error;
+    error.value = error
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-};
-watchEffect(fetchPosts);
+}
+watchEffect(fetchPosts)
 // fetchPosts();
-const goPage = id => {
+const goPage = (id) => {
   // router.push(`/posts/${id}`);
   router.push({
     name: 'PostDetail',
     params: {
-      id,
-    },
-  });
-};
+      id
+    }
+  })
+}
 // modal
-const show = ref(false);
-const modalTitle = ref('');
-const modalContent = ref('');
-const modalCreatedAt = ref('');
+const show = ref(false)
+const modalTitle = ref('')
+const modalContent = ref('')
+const modalCreatedAt = ref('')
 const openModal = ({ title, content, createdAt }) => {
-  show.value = true;
-  modalTitle.value = title;
-  modalContent.value = content;
-  modalCreatedAt.value = createdAt;
-};
+  show.value = true
+  modalTitle.value = title
+  modalContent.value = content
+  modalCreatedAt.value = createdAt
+}
 </script>
 
 <style lang="scss" scoped></style>
