@@ -53,7 +53,7 @@ import PostDetailView from '@/views/posts/PostDetailView.vue'
 import PostFilter from '@/components/posts/PostFilter.vue'
 import PostModal from '@/components/posts/PostModal.vue'
 import { getPosts } from '@/api/posts'
-import { computed, ref, watchEffect } from 'vue'
+import { computed, onMounted, ref, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
 const previewId = ref(null)
