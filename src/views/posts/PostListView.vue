@@ -43,6 +43,9 @@ const changeLimit = (value) => {
   params.value._page = 1;
 }
 
+const isExist = computed(() =>
+  posts.value && posts.value.length>0
+);
 watchEffect(fetchPosts)
 // fetchPosts();
 const goPage = (id) => {
@@ -88,6 +91,10 @@ watch(posts, (target) => {
     <AppLoading v-if="loading" />
 
     <AppError v-else-if="error" :message="error.message" />
+
+    <template v-if="!isExist">
+      <p class="text-center py-5 text-muted">No Results..</p>
+    </template>
 
     <AppGrid :items="posts">
       <template v-slot="{ item }">
