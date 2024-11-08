@@ -10,6 +10,7 @@ import NestedView from '@/views/nested/NestedView.vue';
 import NestedOneView from '@/views/nested/NestedOneView.vue';
 import NestedTwoView from '@/views/nested/NestedTwoView.vue';
 import NestedHomeView from '@/views/nested/NestedHomeView.vue';
+import MyPage from '@/views/MyPage.vue';
 
 const routes = [
   {
@@ -71,11 +72,25 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/my',
+    name:'MyPage',
+    component: MyPage,
+    beforeEnter: (to, from) => {
+      console.log(to);
+      console.log(from);
+      return { name: 'About'}
+    }
+  }
 ];
 const router = createRouter({
   history: createWebHistory(),
   // history: createWebHashHistory(),
   routes,
 });
+
+router.beforeEach((to, from) => {
+
+})
 
 export default router;

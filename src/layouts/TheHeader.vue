@@ -36,6 +36,12 @@
                 Nested
               </RouterLink>
             </li>
+
+            <li class="nav-item">
+              <RouterLink class="nav-link" active-class="active" to="/my">
+                마이페이지
+              </RouterLink>
+            </li>
           </ul>
           <div class="d-flex">
             <button class="btn btn-outline-light" type="button" @click="goPage">
