@@ -96,7 +96,7 @@ watch(posts, (target) => {
       <p class="text-center py-5 text-muted">No Results..</p>
     </template>
 
-    <AppGrid :items="posts">
+    <AppGrid :items="posts" colClass="col-12 col-sm-6 col-lg-4">
       <template v-slot="{ item }">
         <PostItem
           :title="item.title"

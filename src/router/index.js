@@ -94,12 +94,12 @@ function removeQueryString(to) {
 router.beforeEach((to, from) => {
   console.log('to: ', to);
   console.log('from: ', from);
-  if (to.name === 'MyPage') {
+  // if (to.name === 'MyPage') {
     // router.push({name: 'Home'})
     // return false;
     // return { name: 'Home' };
-    return '/posts';
-  }
+    // return to;
+  // }
 });
 
 export default router;
