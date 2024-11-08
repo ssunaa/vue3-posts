@@ -19,7 +19,7 @@ const params = ref({
   _sort: 'createdAt',
   _order: 'desc',
   _page: 1,
-  _limit: 3,
+  _limit: 6,
   title_like: ''
 });
 // pagination
@@ -37,6 +37,12 @@ const fetchPosts = async () => {
     loading.value = false;
   }
 }
+
+const changeLimit = (value) => {
+  params.value._limit = value;
+  params.value._page = 1;
+}
+
 watchEffect(fetchPosts)
 // fetchPosts();
 const goPage = (id) => {
@@ -61,8 +67,8 @@ const openModal = ({ title, content, createdAt }) => {
 }
 
 watch(posts, (target) => {
-  console.log(target[0].id);
-  previewId.value = target[0].id;
+  console.log(target[0]?.id);
+  previewId.value = target[0]?.id;
 });
 
 </script>
@@ -71,7 +77,11 @@ watch(posts, (target) => {
     <h2>게시글 목록</h2>
     <hr class="my-4" />
 
-    <PostFilter v-model:title="params.title_like" v-model:limit="params._limit" />
+    <PostFilter
+      v-model:title="params.title_like"
+      :limit="params._limit"
+      @update:limit="changeLimit"
+    />
 
     <hr class="my-4" />
 
@@ -117,4 +127,6 @@ watch(posts, (target) => {
 </template>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>
